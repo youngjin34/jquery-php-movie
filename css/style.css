@@ -1,0 +1,79 @@
+body {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgb(23, 24, 43) 35%,
+    rgb(1, 22, 27) 100%
+  );
+
+  color: white;
+}
+.top-wrapper {
+  height: 100vh;
+  width: 100vx;
+  background-color: black;
+}
+
+header {
+  color: white;
+  width: 100%;
+  height: 100px;
+}
+
+header > h1 {
+  padding: 30px;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: "Playwrite DE Grund";
+}
+
+.login-signup-wrap {
+  position: fixed;
+  right: 10px;
+  top: 30px;
+}
+
+.login-signup-btn {
+  border: none;
+  background: none;
+  font-size: 15px;
+  color: white;
+  cursor: pointer;
+}
+
+.content {
+  float: right;
+  font-size: 28px;
+  line-height: 45px;
+  padding: 100px;
+}
+
+/* ------------------------------- */
+/* 슬라이더 스타일 */
+#slider {
+  overflow: hidden; /* 슬라이더 오버플로우 숨기기 */
+  position: relative;
+  width: 50%; /* 슬라이더 너비 50% */
+  margin: 0 auto; /* 슬라이더 중앙 정렬 */
+}
+#slider__wrap {
+  display: flex; /* 슬라이드 아이템을 가로로 배치 */
+  transition: margin-left 0.5s ease; /* 슬라이드 이동 애니메이션 */
+  width: 100%; /* 슬라이더 감싸는 div의 너비 */
+}
+.slider-card {
+  min-width: 33%; /* 각 슬라이드 카드의 최소 너비 100% */
+}
+.slider-card img {
+  width: 300px; /* 이미지 너비 100% */
+  height: auto; /* 이미지 높이 자동 조절 */
+}
+/* 영화 리스트 스타일 */
+.movie-list {
+  list-style-type: none; /* 기본 리스트 스타일 제거 */
+  padding: 0; /* 패딩 제거 */
+}
+.movie-list li {
+  margin: 10px 0; /* 리스트 아이템 간격 */
+}
