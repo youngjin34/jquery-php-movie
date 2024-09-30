@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Guro 영화 목록</title>
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/style.css?version1.1" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css"
@@ -80,11 +80,15 @@
 
                 initSlider();
 
-                let output = "<h3>인기 영화 목록</h3><ul>";
+                let output = `<h3 class="movie-list-title">인기 영화 목록</h3><ul class="movie-list">`;
                 data.results.forEach(function (movie) {
                   output += `<li>
-                                <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} 포스터">
-                                ${movie.title} (${movie.release_date})
+                                <a href="detailMovie.html?movieId=${movie.id}">
+                                  <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} 포스터">
+                                </a>
+                                <div class="movie-title">
+                                  ${movie.title} (${movie.release_date})
+                                </div>
                               </li>`;
                 });
                 output += "</ul>";
@@ -124,10 +128,6 @@
         $("#loginButton").click(function () {
           window.location.href = "login.html";
         });
-
-        $("#signupButton").click(function () {
-          window.location.href = "signUp.html";
-        });
       });
     </script>
   </head>
@@ -136,14 +136,13 @@
       <header>
         <h1>Guro 영화 사이트</h1>
         <div class="login-signup-wrap">
-          <button class="login-signup-btn" id="loginButton">로그인</button>
-          <button class="login-signup-btn" id="signupButton">회원가입</button>
+          <button class="login-signup-btn" id="loginButton">SIGN IN</button>
           <button
             class="login-signup-btn"
             id="logoutButton"
             style="display: none"
           >
-            로그아웃
+            LOGOUT
           </button>
         </div>
       </header>

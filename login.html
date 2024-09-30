@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="./css/login.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&display=swap"
+      rel="stylesheet"
+    />
     <title>Guro 로그인 페이지</title>
     <script>
       $(document).ready(function () {
@@ -36,13 +44,123 @@
             },
           });
         });
+
+        $("#addUser").click(function () {
+          const signUpId = $("#signUpId").val();
+          const signUpPassword = $("#signUpPassword").val();
+          const name = $("#name").val();
+          const phone = $("#phone").val();
+
+          $.ajax({
+            url: "http://210.117.212.76/signUp.php",
+            type: "POST",
+            data: {
+              loginId: signUpId,
+              password: signUpPassword,
+              name: name,
+              phone: phone,
+            },
+            success: function (response) {
+              if (response.error) {
+                $("#result").html("오류: " + response.error);
+              } else {
+                $("#result").html(response.message);
+              }
+            },
+            error: function (xhr, status, error) {
+              console.log("AJAX 요청 실패: ", error);
+              $("#result").html("서버 요청에 실패했습니다.");
+            },
+          });
+        });
+
+        // 회원가입 버튼 클릭시 로그인 페이지로 이동
+        $("#addUser").click(function () {
+          window.location.href = "login.html";
+        });
+
+        $("#home").click(function () {
+          window.location.href = "index.html";
+        });
       });
     </script>
   </head>
   <body>
-    <h1>로그인 페이지</h1>
-    <input type="text" id="userId" placeholder="사용자 ID" />
-    <input type="password" id="password" placeholder="비밀번호 입력" />
-    <button id="loginButton">로그인</button>
+    <h1 id="home">Guro 영화 사이트</h1>
+    <div class="login-wrap">
+      <div class="login-html">
+        <input
+          id="tab-1"
+          type="radio"
+          name="tab"
+          class="sign-in"
+          checked
+        /><label for="tab-1" class="tab">Sign In</label>
+        <input id="tab-2" type="radio" name="tab" class="sign-up" /><label
+          for="tab-2"
+          class="tab"
+          >Sign Up</label
+        >
+        <div class="login-form">
+          <div class="sign-in-htm">
+            <div class="group">
+              <label for="user" class="label">ID</label>
+              <input id="userId" type="text" class="input" />
+            </div>
+            <div class="group">
+              <label for="pass" class="label">Password</label>
+              <input
+                id="password"
+                type="password"
+                class="input"
+                data-type="password"
+              />
+            </div>
+
+            <div class="group">
+              <input
+                id="loginButton"
+                type="submit"
+                class="button"
+                value="Sign In"
+              />
+            </div>
+            <div class="hr"></div>
+          </div>
+          <div class="sign-up-htm">
+            <div class="group">
+              <label for="signUpId" class="label">ID</label>
+              <input id="signUpId" type="text" class="input" />
+            </div>
+            <div class="group">
+              <label for="signUpPassword" class="label">Password</label>
+              <input
+                id="signUpPassword"
+                type="password"
+                class="input"
+                data-type="password"
+              />
+            </div>
+            <div class="group">
+              <label for="name" class="label">Name</label>
+              <input id="name" type="text" class="input" data-type="name" />
+            </div>
+            <div class="group">
+              <label for="phone" class="label">Phone</label>
+              <input id="phone" type="text" class="input" />
+            </div>
+            <div class="group">
+              <input
+                id="addUser"
+                type="submit"
+                class="button"
+                value="Sign Up"
+              />
+            </div>
+            <div class="hr"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

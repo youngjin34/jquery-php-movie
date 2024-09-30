@@ -1,3 +1,4 @@
+/* 기본 배경 및 색상 설정 */
 body {
   background: rgb(2, 0, 36);
   background: linear-gradient(
@@ -6,28 +7,43 @@ body {
     rgb(23, 24, 43) 35%,
     rgb(1, 22, 27) 100%
   );
-
   color: white;
+  font-family: "Playwrite DE Grund", sans-serif; /* 폰트 설정 추가 */
 }
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+.content {
+  float: right;
+  font-size: 24px;
+  line-height: 28px;
+  margin-right: 150px;
+  margin-top: 50px;
+}
+
+/* 상단 래퍼 스타일 */
 .top-wrapper {
-  height: 100vh;
-  width: 100vx;
+  min-height: 100vh;
   background-color: black;
 }
 
+/* 헤더 스타일 */
 header {
   color: white;
   width: 100%;
   height: 100px;
 }
 
-header > h1 {
+header h1 {
   padding: 30px;
   font-size: 24px;
   font-weight: bold;
   font-family: "Playwrite DE Grund";
 }
 
+/* 로그인/로그아웃 버튼 스타일 */
 .login-signup-wrap {
   position: fixed;
   right: 10px;
@@ -42,38 +58,72 @@ header > h1 {
   cursor: pointer;
 }
 
-.content {
-  float: right;
-  font-size: 28px;
-  line-height: 45px;
-  padding: 100px;
+/* 영화 리스트 제목 스타일 */
+.movie-list-title {
+  font-size: 28px; /* 제목 폰트 크기 수정 */
+  font-weight: bold;
+  text-align: center;
+  margin: 50px 0;
 }
 
-/* ------------------------------- */
+/* 영화 리스트 스타일 */
+.movie-list {
+  width: 80%;
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.movie-list li {
+  width: 26%;
+  display: flex;
+  flex-direction: column;
+  flex: calc(30% -20px);
+}
+
+.movie-list li img {
+  width: 80%; /* 이미지를 리스트 아이템 너비에 맞게 조정 */
+  height: 500px;
+  margin: 30px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s; /* 호버 시 효과 */
+}
+
+.movie-list li:hover img {
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.movie-title {
+  font-size: 18px;
+  font-family: "Playwrite DE Grund";
+}
+
 /* 슬라이더 스타일 */
 #slider {
   overflow: hidden; /* 슬라이더 오버플로우 숨기기 */
   position: relative;
   width: 50%; /* 슬라이더 너비 50% */
-  margin: 0 auto; /* 슬라이더 중앙 정렬 */
+  margin: 20px auto; /* 슬라이더 중앙 정렬 */
 }
+
 #slider__wrap {
   display: flex; /* 슬라이드 아이템을 가로로 배치 */
-  transition: margin-left 0.5s ease; /* 슬라이드 이동 애니메이션 */
-  width: 100%; /* 슬라이더 감싸는 div의 너비 */
+  transition: margin-left 0.5s ease;
+  width: 100%;
 }
+
 .slider-card {
-  min-width: 33%; /* 각 슬라이드 카드의 최소 너비 100% */
+  min-width: 33%; /* 슬라이드 카드 너비 설정 */
 }
+
 .slider-card img {
-  width: 300px; /* 이미지 너비 100% */
-  height: auto; /* 이미지 높이 자동 조절 */
-}
-/* 영화 리스트 스타일 */
-.movie-list {
-  list-style-type: none; /* 기본 리스트 스타일 제거 */
-  padding: 0; /* 패딩 제거 */
-}
-.movie-list li {
-  margin: 10px 0; /* 리스트 아이템 간격 */
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
