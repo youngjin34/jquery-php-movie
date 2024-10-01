@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Guro 영화 목록</title>
-    <link rel="stylesheet" href="./css/style.css?version1.1" />
+    <link rel="stylesheet" href="./css/style.css?version1.2" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css"
@@ -19,24 +19,24 @@
     <script>
       $(document).ready(function () {
         // 로그인 상태 확인
-        if (localStorage.getItem("loggedIn") === "true") {
-          $("#loginButton").hide();
-          $("#signupButton").hide();
-          $("#logoutButton").show();
+        if (localStorage.getItem('loggedIn') === 'true') {
+          $('#loginButton').hide();
+          $('#signupButton').hide();
+          $('#logoutButton').show();
         }
 
-        $("#logoutButton").click(function () {
-          localStorage.removeItem("loggedIn");
-          window.location.href = "index.html";
+        $('#logoutButton').click(function () {
+          localStorage.removeItem('loggedIn');
+          window.location.href = 'index.html';
         });
 
         fetchMovies();
 
         function fetchMovies() {
           $.ajax({
-            url: "fetch_movies.php",
-            method: "GET",
-            dataType: "json",
+            url: 'fetch_movies.php',
+            method: 'GET',
+            dataType: 'json',
             success: function (data) {
               if (data.results && data.results.length > 0) {
                 let sliderOutput = '<div id="slider"><ul id="slider__wrap">';
@@ -75,37 +75,43 @@
                   </li>
                 `;
 
-                sliderOutput += "</ul></div>";
-                $(".img").html(sliderOutput);
+                sliderOutput += '</ul></div>';
+                $('.img').html(sliderOutput);
 
                 initSlider();
 
                 let output = `<h3 class="movie-list-title">인기 영화 목록</h3><ul class="movie-list">`;
                 data.results.forEach(function (movie) {
                   output += `<li>
-                                <a href="detailMovie.html?movieId=${movie.id}">
-                                  <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} 포스터">
-                                </a>
-                                <div class="movie-title">
-                                  ${movie.title} (${movie.release_date})
-                                </div>
-                              </li>`;
+                               <div class="hover-container">
+                                 <a href="detailMovie.html?movieId=${movie.id}">
+                                   <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} 포스터">
+                                   <div class="overlay">
+                                     <p>${movie.overview}</p> <!-- overview 내용 추가 -->
+                                   </div>
+                                 </a>
+                               </div>
+                               <div class="movie-title">
+                                 <h4>${movie.title}</h4> 
+                                 <b>개봉일  </b>  ${movie.release_date}
+                               </div>
+                             </li>`;
                 });
-                output += "</ul>";
-                $("#result").html(output);
+                output += '</ul>';
+                $('#result').html(output);
               } else {
-                $("#result").html("<p>영화 데이터를 찾을 수 없습니다.</p>");
+                $('#result').html('<p>영화 데이터를 찾을 수 없습니다.</p>');
               }
             },
             error: function () {
-              $("#result").html("<p>영화를 가져오는 데 실패했습니다.</p>");
+              $('#result').html('<p>영화를 가져오는 데 실패했습니다.</p>');
             },
           });
         }
 
         function initSlider() {
-          const slideWrap = $("#slider__wrap");
-          const sliderItems = slideWrap.children("li");
+          const slideWrap = $('#slider__wrap');
+          const sliderItems = slideWrap.children('li');
           let currentIdx = 1; // 첫 번째 슬라이드에서 시작
           const slideCount = sliderItems.length; // 총 슬라이드 개수
 
@@ -114,19 +120,19 @@
             currentIdx++;
             if (currentIdx >= slideCount) {
               currentIdx = 1; // 다시 첫 번째 슬라이드로
-              slideWrap.css("margin-left", `-${currentIdx * 100}%`); // 위치를 바로 잡기 위해 이동
+              slideWrap.css('margin-left', `-${currentIdx * 100}%`); // 위치를 바로 잡기 위해 이동
             }
             slideWrap.animate({ marginLeft: `-${currentIdx * 100}%` }, 500); // 슬라이드 이동
           }
 
           // 초기 위치 설정
-          slideWrap.css("margin-left", `-${currentIdx * 100}%`); // 처음에 두 번째 슬라이드가 보이도록 설정
+          slideWrap.css('margin-left', `-${currentIdx * 100}%`); // 처음에 두 번째 슬라이드가 보이도록 설정
 
           setInterval(moveSlide, 3000); // 3초마다 슬라이드 이동
         }
 
-        $("#loginButton").click(function () {
-          window.location.href = "login.html";
+        $('#loginButton').click(function () {
+          window.location.href = 'login.html';
         });
       });
     </script>
