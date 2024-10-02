@@ -127,3 +127,26 @@ header h1 {
   height: auto;
   border-radius: 10px;
 }
+
+#scroll-top {
+  font-size: 28px;
+  font-weight: bold;
+  position: fixed;
+  right: 30px;
+  bottom: 35px;
+
+  width: 40px;
+  height: 50ppx;
+  border: none;
+  border: 1px solid white;
+  border-radius: 100px;
+  background: none;
+  color: white;
+  cursor: pointer;
+}
+
+#scroll-top:hover {
+  background-color: white;
+  color: black;
+  transition: 0.3s;
+}
