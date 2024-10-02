@@ -34,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 사용자가 존재하는 경우 비밀번호 확인
         $user = $result->fetch_assoc();
         if ($user['password'] === $userPassword) {
-            echo json_encode(["success" => true, "message" => "Login successful"]);
+            // 로그인 성공 시 userId 반환
+            echo json_encode(["success" => true, "message" => "Login successful", "userId" => $user['id']]);
         } else {
             echo json_encode(["success" => false, "message" => "Invalid password"]);
         }

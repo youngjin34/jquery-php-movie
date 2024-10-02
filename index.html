@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Guro 영화 목록</title>
-    <link rel="stylesheet" href="./css/style.css?version1.1" />
+    <link rel="stylesheet" href="./css/style.css?version1.3" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css"
@@ -21,36 +21,46 @@
         // 로그인 상태 확인
         if (localStorage.getItem("loggedIn") === "true") {
           $("#loginButton").hide();
-          $("#signupButton").hide();
           $("#logoutButton").show();
         }
 
         $("#logoutButton").click(function () {
           localStorage.removeItem("loggedIn");
+          localStorage.removeItem("userId"); // 로그아웃 시 userId 제거
           window.location.href = "index.html";
         });
 
-        fetchMovies();
+        // 페이지가 로드될 때 fetch_movies.php 호출
+        $.ajax({
+          url: "fetch_movies.php",
+          method: "GET",
+          success: function (data) {},
+          error: function () {
+            console.error("영화를 가져오는 데 실패했습니다.");
+          },
+        });
+
+        fetchMovies(); // movies.php에서 데이터 가져오기
 
         function fetchMovies() {
           $.ajax({
-            url: "fetch_movies.php",
+            url: "movies.php",
             method: "GET",
             dataType: "json",
             success: function (data) {
-              if (data.results && data.results.length > 0) {
+              if (data && data.length > 0) {
                 let sliderOutput = '<div id="slider"><ul id="slider__wrap">';
 
                 // 첫 번째 영화 포스터 추가
                 sliderOutput += `
                   <li class="slider-card">
-                    <a href="detailMovie.html?movieId=${data.results[0].id}">
-                      <img src="https://image.tmdb.org/t/p/w500${data.results[0].poster_path}" alt="${data.results[0].title} 포스터">
+                    <a href="detailMovie.html?movieId=${data[0].id}">
+                      <img src="https://image.tmdb.org/t/p/w500${data[0].poster_path}" alt="${data[0].title} 포스터">
                     </a>
                   </li>
                 `;
 
-                data.results.forEach(function (movie) {
+                data.forEach(function (movie) {
                   sliderOutput += `
                     <li class="slider-card">
                       <a href="detailMovie.html?movieId=${movie.id}">
@@ -64,13 +74,11 @@
                 sliderOutput += `
                   <li class="slider-card">
                     <a href="detailMovie.html?movieId=${
-                      data.results[data.results.length - 1].id
+                      data[data.length - 1].movieId
                     }">
                       <img src="https://image.tmdb.org/t/p/w500${
-                        data.results[data.results.length - 1].poster_path
-                      }" alt="${
-                  data.results[data.results.length - 1].title
-                } 포스터">
+                        data[data.length - 1].poster_path
+                      }" alt="${data[data.length - 1].title} 포스터">
                     </a>
                   </li>
                 `;
@@ -81,15 +89,22 @@
                 initSlider();
 
                 let output = `<h3 class="movie-list-title">인기 영화 목록</h3><ul class="movie-list">`;
-                data.results.forEach(function (movie) {
+                data.forEach(function (movie) {
                   output += `<li>
-                                <a href="detailMovie.html?movieId=${movie.id}">
-                                  <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} 포스터">
-                                </a>
-                                <div class="movie-title">
-                                  ${movie.title} (${movie.release_date})
-                                </div>
-                              </li>`;
+                               <div class="hover-container">
+                                 <a href="detailMovie.html?movieId=${movie.id}">
+                                   <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} 포스터">
+                                   <div class="overlay">
+                                     <p>${movie.overview}</p> <!-- overview 내용 추가 -->
+                                   </div>
+                                 </a>
+                               </div>
+                               <div class="movie-title">
+                                 <h4>${movie.title}</h4> 
+                                 <b>개봉일  </b>  ${movie.release_date}
+                                 <b>평점 </b> ${movie.vote_average}
+                               </div>
+                             </li>`;
                 });
                 output += "</ul>";
                 $("#result").html(output);

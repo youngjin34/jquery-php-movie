@@ -82,26 +82,32 @@ header h1 {
   width: 26%;
   display: flex;
   flex-direction: column;
-  flex: calc(30% -20px);
+  flex: calc(20% -20px);
 }
 
 .movie-list li img {
-  width: 80%; /* 이미지를 리스트 아이템 너비에 맞게 조정 */
-  height: 500px;
+  width: 90%; /* 이미지를 리스트 아이템 너비에 맞게 조정 */
+  height: 55vh;
   margin: 30px 0;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s, box-shadow 0.3s; /* 호버 시 효과 */
 }
 
-.movie-list li:hover img {
+/* .movie-list li:hover img {
   transform: scale(1.1);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-}
+} */
 
 .movie-title {
   font-size: 18px;
-  font-family: "Playwrite DE Grund";
+  line-height: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-title > h4 {
+  font-size: 24px;
 }
 
 /* 슬라이더 스타일 */
@@ -149,4 +155,49 @@ header h1 {
   background-color: white;
   color: black;
   transition: 0.3s;
+}
+
+/* 이미지 호버 시 overview 나옴 */
+.hover-container {
+  position: relative;
+  width: 100%; /* 이미지 너비에 맞춤 */
+}
+
+.hover-container img {
+  width: 100%; /* 이미지가 컨테이너 크기에 맞게 */
+  height: auto; /* 비율 유지 */
+}
+
+.overlay {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 85%; /* 이미지 크기에 맞게 100%로 설정 */
+  height: 86%; /* 이미지 높이에 맞춤 */
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.8); /* 어두운 반투명 배경 */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* 처음에는 보이지 않게 설정 */
+  transition: opacity 0.5s ease;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.hover-container:hover .overlay {
+  opacity: 1; /* 호버 시에 overlay가 보이도록 설정 */
+}
+
+.overlay p {
+  height: 70%;
+  font-size: 18px;
+  overflow-y: scroll;
+}
+
+.overlay p::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }

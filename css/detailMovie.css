@@ -1,11 +1,45 @@
 body {
-  background: rgb(2, 0, 36);
-  background: linear-gradient(
-    90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgb(23, 24, 43) 35%,
-    rgb(1, 22, 27) 100%
-  );
-
   color: white;
+}
+
+.main-title {
+  padding: 5px 22px;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: "Playwrite DE Grund";
+  color: white;
+  cursor: pointer;
+}
+
+.detail {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 50px; /* 간격 조정 */
+}
+
+.detail .moviePic {
+  width: 40%; /* 넓이 조정 */
+  flex-shrink: 0; /* 크기 고정 */
+}
+
+.detail .moviePic img {
+  width: 100%; /* 이미지 크기 조정 */
+  height: auto; /* 비율 유지 */
+}
+
+.contents {
+  width: 50%; /* 내용 부분 크기 조정 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.contents2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
