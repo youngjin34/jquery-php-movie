@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $result->fetch_assoc();
         if ($user['password'] === $userPassword) {
             // 로그인 성공 시 userId 반환
-            echo json_encode(["success" => true, "message" => "Login successful", "userId" => $user['id']]);
+            echo json_encode(["success" => true, "message" => "Login successful", "userId" => $user['userId']]);
         } else {
             echo json_encode(["success" => false, "message" => "Invalid password"]);
         }

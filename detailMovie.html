@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="./css/detailMovie.css?version1.0" />
+    <link rel="stylesheet" href="./css/detailMovie.css?version1.1" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,82 +18,90 @@
 
     <script>
       const GENRE_MAP = {
-        35: "코미디",
-        53: "스릴러",
-        28: "액션",
-        10749: "로맨스",
-        18: "드라마",
-        12: "어드밴쳐",
-        16: "애니메이션",
-        80: "범죄",
-        99: "다큐멘터리",
-        10751: "가족",
-        14: "판타지",
-        36: "역사",
-        27: "호러",
-        10402: "음악",
-        9648: "미스테리",
-        878: "공상 과학",
-        10770: "TV 영화",
-        10752: "전쟁",
-        37: "서양",
+        35: '코미디',
+        53: '스릴러',
+        28: '액션',
+        10749: '로맨스',
+        18: '드라마',
+        12: '어드밴쳐',
+        16: '애니메이션',
+        80: '범죄',
+        99: '다큐멘터리',
+        10751: '가족',
+        14: '판타지',
+        36: '역사',
+        27: '호러',
+        10402: '음악',
+        9648: '미스테리',
+        878: '공상 과학',
+        10770: 'TV 영화',
+        10752: '전쟁',
+        37: '서양',
       };
 
       $(document).ready(function () {
         const searchId = new URLSearchParams(window.location.search);
-        const movieId = searchId.get("movieId");
-        const userId = localStorage.getItem("userId");
+        const movieId = searchId.get('movieId');
 
-        let genreNames = "";
+        const userId = localStorage.getItem('userId');
+        console.log('User ID:', userId);
+
+        let genreNames = '';
 
         // 영화 데이터 가져오기
         $.ajax({
-          url: "movies.php",
-          method: "GET",
-          dataType: "json",
+          url: 'movies.php',
+          method: 'GET',
+          dataType: 'json',
           success: function (data) {
             if (data.length > 0) {
               const filteredMovie = data.find(
                 (movie) => String(movie.id) === String(movieId)
               );
 
-              console.log(filteredMovie);
+              if (typeof filteredMovie.genre_ids === 'string') {
+                filteredMovie.genre_ids = filteredMovie.genre_ids
+                  .split(',')
+                  .map(Number);
+              }
 
               if (
                 filteredMovie &&
                 filteredMovie.genre_ids &&
                 Array.isArray(filteredMovie.genre_ids)
               ) {
-                const genreNames = filteredMovie.genre_ids
-                  .map((id) => GENRE_MAP[id] || "알 수 없는 장르")
-                  .join(", ");
+                genreNames = filteredMovie.genre_ids
+                  .map((id) => {
+                    console.log('장르 ID: ', id);
+                    return GENRE_MAP[id] || '알 수 없는 장르';
+                  })
+                  .join(', ');
               } else {
-                const genreNames = "장르 정보가 없습니다.";
+                genreNames = '장르 정보가 없습니다.';
               }
 
               if (filteredMovie) {
                 let output = `
-          <div class="detail">
-            <div class="moviePic">
-                <img src="${filteredMovie.poster_path}" alt="${filteredMovie.title}">
-            </div>
+                  <div class="detail">
+                    <div class="moviePic">
+                        <img src="${filteredMovie.poster_path}" alt="${filteredMovie.title}">
+                    </div>
+                  
+                    <div class="contents">
+                      <div class="contents1">
+                        <div class="theme"><h2>${filteredMovie.title}</h2></div>
+                        <div class="summary"><p>${filteredMovie.overview}</p></div>
+                      </div>
+                      <div class="contents2">
+                        <div class="genre"><b>장르:&nbsp;</b> ${genreNames}</div>
+                        <div class="date"><b>개봉일:&nbsp;</b> ${filteredMovie.release_date}</div>
+                        <div class="rate"><span><b>평점:&nbsp;</b> ${filteredMovie.vote_average}</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  `;
 
-            <div class="contents">
-              <div class="contents1">
-                <div class="theme"><h3>${filteredMovie.title}</h3></div>
-                <div class="summary"><p>${filteredMovie.overview}</p></div>
-              </div>
-
-              <div class="contents2">
-                <div class="genre"><b>장르:&nbsp;</b> ${genreNames}</div>
-                <div class="date"><b>개봉일:&nbsp;</b> ${filteredMovie.release_date}</div>
-                <div class="rate"><span><b>평점:&nbsp;</b> ${filteredMovie.vote_average}</span></div>
-              </div>
-            </div>
-          </div>
-          `;
-
-                $("body").css({
+                $('body').css({
                   backgroundImage: `
             linear-gradient(
               to right,
@@ -105,11 +113,11 @@
             ),
             url('${filteredMovie.backdrop_path}')
           `,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
                 });
 
-                $("#result").html(output);
+                $('#result').html(output);
               }
             }
           },
@@ -118,12 +126,12 @@
         // 리뷰 가져오기
         function fetchReviews() {
           $.ajax({
-            url: "fetch_review.php", // 리뷰 가져오는 PHP 파일
-            method: "GET",
+            url: 'fetch_review.php', // 리뷰 가져오는 PHP 파일
+            method: 'GET',
             data: { movieId: movieId },
-            dataType: "json",
+            dataType: 'json',
             success: function (reviews) {
-              let reviewOutput = "";
+              let reviewOutput = '';
               if (reviews.length > 0) {
                 reviews.forEach(function (review) {
                   reviewOutput += `
@@ -134,29 +142,31 @@
                     `;
                 });
               } else {
-                reviewOutput = "<p>등록된 리뷰가 없습니다.</p>";
+                reviewOutput = '<p>등록된 리뷰가 없습니다.</p>';
               }
-              $("#reviews").html(reviewOutput);
+              $('#reviews').html(reviewOutput);
             },
           });
         }
 
+        // $('#userId').val(localStorage.getItem('userId'));
+
         // 리뷰 등록
-        $("#reviewForm").submit(function (e) {
+        $('#reviewForm').submit(function (e) {
           e.preventDefault();
 
           const reviewData = {
-            password: $("#password").val(),
-            content: $("#content").val(),
-            userId: userId, // 로그인된 사용자 ID 가져오기
+            password: $('#password').val(),
+            content: $('#content').val(),
+            userId: parseInt(userId),
             movieId: movieId,
           };
 
           $.ajax({
-            url: "fetch_review.php", // 리뷰 등록 PHP 파일
-            method: "POST",
+            url: 'fetch_review.php', // 리뷰 등록 PHP 파일
+            method: 'POST',
             data: reviewData,
-            dataType: "json",
+            dataType: 'json',
             success: function (response) {
               if (response.message) {
                 alert(response.message);
@@ -170,8 +180,8 @@
 
         fetchReviews(); // 페이지 로드 시 리뷰 가져오기
 
-        $("#home").click(function () {
-          window.location.href = "index.html";
+        $('#home').click(function () {
+          window.location.href = 'index.html';
         });
       });
     </script>
@@ -184,7 +194,7 @@
     <div id="review-section">
       <h3>리뷰 작성하기</h3>
       <form id="reviewForm">
-        <input type="hidden" id="userId" value="1" />
+        <input type="hidden" id="userId" name="userId" />
         <!-- 로그인된 사용자 ID -->
         <input type="password" id="password" placeholder="비밀번호" required />
         <textarea

@@ -22,14 +22,13 @@ if ($conn->connect_error) {
 
 // 리뷰 등록
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $password = $_POST['password'];
+    $password = $_POST['password']; // 비밀번호를 해시로 변환하는 부분을 추가할 수 있습니다.
     $content = $_POST['content'];
     $userId = $_POST['userId'];
     $movieId = $_POST['movieId'];
 
-    // movieId가 movies 테이블에 존재하는지 확인 부분 제거
-    // 대신 리뷰를 삽입
-    $stmt = $conn->prepare("INSERT INTO review (password, content, loginId, movieId) VALUES (?, ?, ?, ?)");
+    // 리뷰를 삽입
+    $stmt = $conn->prepare("INSERT INTO review (password, content, userId, movieId) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssii", $password, $content, $userId, $movieId);
 
     if ($stmt->execute()) {
@@ -47,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $movieId = $_GET['movieId'];
 
         // 해당 movieId에 대한 리뷰 가져오기
-        $stmt = $conn->prepare("SELECT r.reviewId, r.content, r.created_at, u.name FROM review r JOIN users u ON r.loginId = u.loginId WHERE r.movieId = ?");
+        $stmt = $conn->prepare("SELECT r.reviewId, r.content, r.created_at, u.name FROM review r JOIN users u ON r.userId = u.userId WHERE r.movieId = ?");
         $stmt->bind_param("i", $movieId);
         $stmt->execute();
         $result = $stmt->get_result();
