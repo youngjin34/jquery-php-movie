@@ -31,15 +31,61 @@ body {
 }
 
 .contents {
-  width: 50%; /* 내용 부분 크기 조정 */
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
 }
 
 .contents2 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+#review-section {
+  padding: 50px;
+  width: 60%;
+  height: 70vh;
+  background-color: black;
+  opacity: 0.6;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+#password {
+  color: white;
+  font-size: 18px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #a062627e;
+  margin-bottom: 30px;
+  padding: 10px;
+}
+
+#content {
+  width: 96%;
+  height: 150px;
+  font-size: 18px;
+  padding: 20px;
+  background-color: #8b8b8b1c;
+  resize: none;
+  color: white;
+  border: none;
+  border: 1px solid #a062627e;
+  outline: none;
+}
+
+#review-button {
+  background: none;
+  border: none;
+  padding-bottom: 10px;
+  color: red;
+  font-size: 18px;
+  font-weight: bolder;
+  float: right;
+  padding: 20px;
+  cursor: pointer;
 }

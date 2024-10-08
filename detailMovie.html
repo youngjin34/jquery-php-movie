@@ -179,23 +179,32 @@
   <body>
     <h1 class="main-title" id="home">Guro 영화 사이트</h1>
 
-    <div id="result"></div>
+    <div class="detail-wrapper">
+      <div id="result"></div>
 
-    <div id="review-section">
-      <h3>리뷰 작성하기</h3>
-      <form id="reviewForm">
-        <input type="hidden" id="userId" value="1" />
-        <!-- 로그인된 사용자 ID -->
-        <input type="password" id="password" placeholder="비밀번호" required />
-        <textarea
-          id="content"
-          placeholder="리뷰를 입력하세요"
-          required
-        ></textarea>
-        <button type="submit">리뷰 등록</button>
-      </form>
-      <h2>리뷰</h2>
-      <div id="reviews"></div>
+      <div id="review-section">
+        <h3>리뷰 작성하기</h3>
+        <form id="reviewForm">
+          <input type="hidden" id="userId" value="1" />
+          <!-- 로그인된 사용자 ID -->
+          <div>
+            <input
+              type="password"
+              id="password"
+              placeholder="비밀번호"
+              required
+            />
+          </div>
+          <textarea
+            id="content"
+            placeholder="리뷰를 입력하세요"
+            required
+          ></textarea>
+          <button id="review-button" type="submit">리뷰 등록</button>
+        </form>
+        <h2>리뷰</h2>
+        <div id="reviews"></div>
+      </div>
     </div>
   </body>
 </html>
