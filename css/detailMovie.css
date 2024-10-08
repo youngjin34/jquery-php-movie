@@ -17,7 +17,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 50px; /* 간격 조정 */
+  gap: 100px;
 }
 
 .detail .moviePic {
@@ -35,11 +35,24 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* align-items: center; */
+}
+
+.summary {
+  height: 50%;
+  overflow-y: scroll;
+
+  font-size: 18px;
+}
+
+.summary::-webkit-scrollbar {
+  display: none;
 }
 
 .contents2 {
   display: flex;
   flex-direction: row;
+  flex: 1;
   justify-content: space-between;
 }
 
@@ -88,4 +101,13 @@ body {
   float: right;
   padding: 20px;
   cursor: pointer;
+}
+
+#reviews {
+  height: 40%;
+  overflow-y: scroll;
+}
+
+#reviews::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }

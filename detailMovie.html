@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="./css/detailMovie.css?version1.0" />
+    <link rel="stylesheet" href="./css/detailMovie.css?version1.2" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -42,7 +42,9 @@
       $(document).ready(function () {
         const searchId = new URLSearchParams(window.location.search);
         const movieId = searchId.get("movieId");
+
         const userId = localStorage.getItem("userId");
+        console.log("User ID:", userId);
 
         let genreNames = "";
 
@@ -57,41 +59,47 @@
                 (movie) => String(movie.id) === String(movieId)
               );
 
-              console.log(filteredMovie);
+              if (typeof filteredMovie.genre_ids === "string") {
+                filteredMovie.genre_ids = filteredMovie.genre_ids
+                  .split(",")
+                  .map(Number);
+              }
 
               if (
                 filteredMovie &&
                 filteredMovie.genre_ids &&
                 Array.isArray(filteredMovie.genre_ids)
               ) {
-                const genreNames = filteredMovie.genre_ids
-                  .map((id) => GENRE_MAP[id] || "알 수 없는 장르")
+                genreNames = filteredMovie.genre_ids
+                  .map((id) => {
+                    console.log("장르 ID: ", id);
+                    return GENRE_MAP[id] || "알 수 없는 장르";
+                  })
                   .join(", ");
               } else {
-                const genreNames = "장르 정보가 없습니다.";
+                genreNames = "장르 정보가 없습니다.";
               }
 
               if (filteredMovie) {
                 let output = `
-          <div class="detail">
-            <div class="moviePic">
-                <img src="${filteredMovie.poster_path}" alt="${filteredMovie.title}">
-            </div>
-
-            <div class="contents">
-              <div class="contents1">
-                <div class="theme"><h3>${filteredMovie.title}</h3></div>
-                <div class="summary"><p>${filteredMovie.overview}</p></div>
-              </div>
-
-              <div class="contents2">
-                <div class="genre"><b>장르:&nbsp;</b> ${genreNames}</div>
-                <div class="date"><b>개봉일:&nbsp;</b> ${filteredMovie.release_date}</div>
-                <div class="rate"><span><b>평점:&nbsp;</b> ${filteredMovie.vote_average}</span></div>
-              </div>
-            </div>
-          </div>
-          `;
+                  <div class="detail">
+                    <div class="moviePic">
+                        <img src="${filteredMovie.poster_path}" alt="${filteredMovie.title}">
+                    </div>
+                  
+                    <div class="contents">
+                      <div class="contents1">
+                        <div class="theme"><h2>${filteredMovie.title}</h2></div>
+                        <div class="summary"><p>${filteredMovie.overview}</p></div>
+                      </div>
+                      <div class="contents2">
+                        <div class="genre"><b>장르:&nbsp;</b> ${genreNames}</div>
+                        <div class="date"><b>개봉일:&nbsp;</b> ${filteredMovie.release_date}</div>
+                        <div class="rate"><span><b>평점:&nbsp;</b> ${filteredMovie.vote_average}</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  `;
 
                 $("body").css({
                   backgroundImage: `
@@ -124,11 +132,15 @@
             dataType: "json",
             success: function (reviews) {
               let reviewOutput = "";
+              reviews.reverse();
+
               if (reviews.length > 0) {
                 reviews.forEach(function (review) {
                   reviewOutput += `
                     <div class="review-item">
                       <p><strong>${review.name}</strong> (${review.created_at})</p>
+                      <button class="delete-button" data-review-id="${review.reviewId}">삭제</button>
+
                       <p>${review.content}</p>
                     </div>
                     `;
@@ -141,6 +153,29 @@
           });
         }
 
+        // 리뷰 삭제
+        $(document).on("click", ".delete-button", function () {
+          const reviewId = $(this).data("review-id");
+          const password = prompt("비밀번호를 입력하세요:");
+
+          if (password) {
+            $.ajax({
+              url: "delete_review.php",
+              method: "POST",
+              data: { reviewId: reviewId, password: password },
+              dataType: "json",
+              success: function (response) {
+                if (response.message) {
+                  alert(response.message);
+                  fetchReviews(); // 리뷰 새로고침
+                } else if (response.error) {
+                  alert(response.error);
+                }
+              },
+            });
+          }
+        });
+
         // 리뷰 등록
         $("#reviewForm").submit(function (e) {
           e.preventDefault();
@@ -148,7 +183,7 @@
           const reviewData = {
             password: $("#password").val(),
             content: $("#content").val(),
-            userId: userId, // 로그인된 사용자 ID 가져오기
+            userId: parseInt(userId),
             movieId: movieId,
           };
 
