@@ -26,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 사용자 ID로 해당 사용자 조회
     $sql = "SELECT * FROM users WHERE loginId = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $loginId);
-    $stmt->execute();
+    $stmt-> bind_param("s", $loginId);
+    $stmt-> execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $result->fetch_assoc();
         if ($user['password'] === $userPassword) {
             // 로그인 성공 시 userId 반환
-            echo json_encode(["success" => true, "message" => "Login successful", "userId" => $user['userId']]);
+            echo json_encode(["success" => true, "message" => "Login successful", "userId" => $user['userId'], "loginId" => $user['loginId']]);
         } else {
             echo json_encode(["success" => false, "message" => "Invalid password"]);
         }

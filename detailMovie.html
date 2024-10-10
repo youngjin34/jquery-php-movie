@@ -13,7 +13,7 @@
       rel="stylesheet"
     />
 
-    <title>Document</title>
+    <title>Guro 영화</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
@@ -141,8 +141,8 @@
                       <p><strong>${review.name}</strong> (${review.created_at})</p>
                       <button class="delete-button" data-review-id="${review.reviewId}">삭제</button>
 
+                      </div>
                       <p>${review.content}</p>
-                    </div>
                     `;
                 });
               } else {
@@ -162,7 +162,10 @@
             $.ajax({
               url: "delete_review.php",
               method: "POST",
-              data: { reviewId: reviewId, password: password },
+              data: {
+                reviewId: reviewId,
+                password: password,
+              },
               dataType: "json",
               success: function (response) {
                 if (response.message) {
@@ -173,6 +176,8 @@
                 }
               },
             });
+          } else {
+            alert("권한이 없습니다.");
           }
         });
 
@@ -196,6 +201,8 @@
               if (response.message) {
                 alert(response.message);
                 fetchReviews(); // 리뷰 새로고침
+                $("#password").val(""); // 비밀번호 입력 초기화
+                $("#content").val(""); // 리뷰 입력 초기화
               } else if (response.error) {
                 alert(response.error);
               }
