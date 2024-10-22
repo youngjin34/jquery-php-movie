@@ -6,7 +6,7 @@ body {
   padding: 5px 22px;
   font-size: 24px;
   font-weight: bold;
-  font-family: "Playwrite DE Grund";
+  font-family: 'Playwrite DE Grund';
   color: white;
   cursor: pointer;
 }
@@ -125,4 +125,17 @@ body {
 
 #reviews::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera*/
+}
+
+.heart-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: gray;
+  transition: color 0.3s ease;
+}
+
+.heart-button.liked {
+  color: red;
 }
