@@ -9,7 +9,7 @@ ini_set('display_errors', 1);
 
 // 데이터베이스 연결 설정
 $servername = "210.117.212.110";
-$username = "root";
+$username = "iden";
 $password = "qwe003227";
 $dbname = "movie_page";
 

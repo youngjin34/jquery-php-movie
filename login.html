@@ -71,10 +71,10 @@
                 localStorage.setItem("loggedIn", "true");
                 localStorage.setItem("userId", data.userId); // userId 저장
 
-                // 로그인 성공 시 index.html 페이지로 이동
+                // 회원가입 성공 시 index.html 페이지로 이동
                 window.location.href = "login.html";
               } else {
-                alert("로그인 실패: " + data.message);
+                alert("회원가입 실패: " + data.message);
                 $("#userId").focus();
               }
             },
