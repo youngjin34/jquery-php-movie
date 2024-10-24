@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Page - Guro 영화</title>
+    <link rel="stylesheet" href="./css/style.css?version1.3" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        const userId = localStorage.getItem("userId");
+
+        // 좋아요 영화 데이터 가져오기
+        fetchLikedMovies(userId);
+
+        function fetchLikedMovies(userId) {
+          $.ajax({
+            url: "fetch_liked_movies.php", // 서버에서 좋아요를 누른 영화 데이터를 가져오는 PHP 스크립트
+            method: "GET",
+            data: { userId: userId },
+            dataType: "json",
+            success: function (data) {
+              if (data && data.length > 0) {
+                let output = `<h3>좋아요한 영화 목록</h3><ul class="movie-list">`;
+                data.forEach(function (movie) {
+                  output += `
+                    <li>
+                      <div class="hover-container">
+                        <a href="detailMovie.html?movieId=${movie.id}">
+                          <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title} 포스터">
+                          <div class="overlay">
+                            <p>${movie.overview}</p>
+                          </div>
+                        </a>
+                      </div>
+                      <div class="movie-title">
+                        <h4>${movie.title}</h4>
+                        <div class="movie-info"> 
+                          <span>개봉일: ${movie.release_date}</span>
+                          <span>평점: ${movie.vote_average}</span>
+                        </div>
+                      </div>
+                    </li>`;
+                });
+                output += "</ul>";
+                $("#result").html(output);
+              } else {
+                $("#result").html("<p>좋아요한 영화가 없습니다.</p>");
+              }
+            },
+            error: function () {
+              $("#result").html(
+                "<p>영화 데이터를 가져오는 데 실패했습니다.</p>"
+              );
+            },
+          });
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div class="top-wrapper">
+      <header>
+        <h1>내 영화 목록</h1>
+        <div class="login-signup-wrap">
+          <button class="login-signup-btn" id="logoutButton">LOGOUT</button>
+        </div>
+      </header>
+    </div>
+    <div id="result"></div>
+    <button id="scroll-top">↑</button>
+  </body>
+</html>

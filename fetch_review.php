@@ -1,6 +1,4 @@
 <?php
-date_default_timezone_set('Asia/Seoul');
-
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -24,19 +22,20 @@ if ($conn->connect_error) {
 
 // 리뷰 등록
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $password = $_POST['password']; // 비밀번호를 해시로 변환하는 부분을 추가할 수 있습니다.
+    $password = $_POST['password'];
     $content = $_POST['content'];
     $userId = $_POST['userId'];
     $movieId = $_POST['movieId'];
 
-    // 리뷰를 삽입
+    // movieId가 movies 테이블에 존재하는지 확인 부분 제거
+    // 대신 리뷰를 삽입
     $stmt = $conn->prepare("INSERT INTO review (password, content, userId, movieId) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssii", $password, $content, $userId, $movieId);
 
     if ($stmt->execute()) {
         echo json_encode(["message" => "리뷰가 성공적으로 추가되었습니다."]);
     } else {
-        echo json_encode(["error" => "리뷰 추가 실패: " . $stmt->error]);
+        echo json_encode(["error" => "리뷰 추가 실패: " . $conn->error]);
     }
 
     $stmt->close();
