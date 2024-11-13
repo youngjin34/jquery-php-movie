@@ -1,12 +1,6 @@
 /* 기본 배경 및 색상 설정 */
 body {
-  background: rgb(2, 0, 36);
-  background: linear-gradient(
-    90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgb(23, 24, 43) 35%,
-    rgb(1, 22, 27) 100%
-  );
+  background-color: black;
   color: white;
   font-family: 'Playwrite DE Grund', sans-serif; /* 폰트 설정 추가 */
 }
@@ -75,29 +69,24 @@ header h1 {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 40px;
 }
 
 .movie-list li {
-  width: 26%;
+  width: 19%;
   display: flex;
   flex-direction: column;
-  flex: calc(20% -20px);
+  /* flex: calc(10% -20px); */
 }
 
 .movie-list li img {
-  width: 90%; /* 이미지를 리스트 아이템 너비에 맞게 조정 */
-  height: 55vh;
+  width: 100%; /* 이미지를 리스트 아이템 너비에 맞게 조정 */
+  height: 40vh;
   margin: 30px 0;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s, box-shadow 0.3s; /* 호버 시 효과 */
 }
-
-/* .movie-list li:hover img {
-  transform: scale(1.1);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-} */
 
 .movie-title {
   font-size: 18px;
@@ -108,30 +97,6 @@ header h1 {
 
 .movie-title > h4 {
   font-size: 24px;
-}
-
-/* 슬라이더 스타일 */
-#slider {
-  overflow: hidden; /* 슬라이더 오버플로우 숨기기 */
-  position: relative;
-  width: 50%; /* 슬라이더 너비 50% */
-  margin: 20px auto; /* 슬라이더 중앙 정렬 */
-}
-
-#slider__wrap {
-  display: flex; /* 슬라이드 아이템을 가로로 배치 */
-  transition: margin-left 0.5s ease;
-  width: 100%;
-}
-
-.slider-card {
-  min-width: 33%; /* 슬라이드 카드 너비 설정 */
-}
-
-.slider-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
 }
 
 #scroll-top {
@@ -172,7 +137,7 @@ header h1 {
   position: absolute;
   top: 30px;
   left: 0;
-  width: 85%; /* 이미지 크기에 맞게 100%로 설정 */
+  width: 94%;
   height: 86%; /* 이미지 높이에 맞춤 */
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.8); /* 어두운 반투명 배경 */
